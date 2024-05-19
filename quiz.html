@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz Game</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    #quiz-container {
+      width: 500px;
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      padding: 20px;
+    }
+
+    #question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .answer {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #eee;
+      cursor: pointer;
+    }
+
+    .answer:hover {
+      background-color: #ddd;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="quiz-container">
+  <h1>Quiz Game</h1>
+  <div id="question"></div>
+  <div id="answers"></div>
+  <div id="result"></div>
+</div>
+
+<script>
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      answers: ["Berlin", "Paris", "Rome", "Madrid"],
+      correctAnswer: 1 // Index of the correct answer in the answers array
+    },
+    {
+      question: "What is the highest mountain in the world?",
+      answers: ["K2", "Kangchenjunga", "Lhotse", "Mount Everest"],
+      correctAnswer: 3
+    },
+    // Add more questions here
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const questionData = questions[currentQuestion];
+    document.getElementById("question").textContent = questionData.question;
+
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = ""; // Clear previous answers
+
+    questionData.answers.forEach((answer, index) => {
+      const answerButton = document.createElement("div");
+      answerButton.classList.add("answer");
+      answerButton.textContent = answer;
+      answerButton.addEventListener("click", () => checkAnswer(index));
+      answersDiv.appendChild(answerButton);
+    });
+  }
+
+  function checkAnswer(selectedAnswerIndex) {
+    if (selectedAnswerIndex === questions[currentQuestion].correctAnswer) {
+      score++;
+      alert("Correct!");
+    } else {
+      alert("Incorrect. The correct answer is: " + questions[currentQuestion].answers[questions[currentQuestion].correctAnswer]);
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+      loadQuestion();
+    } else {
+      displayResult();
+    }
+  }
+
+  function displayResult() {
+    document.getElementById("result").textContent = "You scored " + score + " out of " + questions.length + "!";
+  }
+
+  loadQuestion(); // Start with the first question
+</script>
+
+</body>
+</html>
